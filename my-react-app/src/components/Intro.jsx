@@ -5,7 +5,7 @@ const Intro = () => {
     <div className=''>
       <div>
 
-      <svg width="50" height="50" style={{mixBlendMode:"color-burn",background:"inherit"}}  version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+      <svg width="50" height="50"   version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 600 600"  xmlSpace="preserve">
 <g id="background">
 	<rect fill='#ffffff' width="600" height="600"/>
