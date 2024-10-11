@@ -1,11 +1,12 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
 
 const Intro = () => {
   return (
-    <div className=''>
-      <div>
+    <div className='text-center intro'>
+      <div className='grid place-items-center'>
 
-      <svg width="50" height="50"   version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+      <svg width="180" height="180"   version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 600 600"  xmlSpace="preserve">
 <g id="background">
 	<rect fill='#ffffff' width="600" height="600"/>
@@ -38,13 +39,23 @@ const Intro = () => {
 </svg>
 
       </div>
-      <div>
+      <div className='my-4'>
 
+<p className='font-bold text-5xl'>Welcome to </p>
+<p className='font-bold text-5xl'>ChatNest &</p>
+<p className='my-4 opacity-70'>Connect with friends,family and colleagues easily</p>
       </div>
 
-      <div>
+      <div className='mt-12'>
+
+		<Link to='/dashboard' className='btn-one'>Start</Link>
 
       </div>
+	  <div className='flex justify-evenly  my-4 '>
+
+<Link to='/register' className='hover:opacity-80 opacity-50 '>New user? <span className='underline'>Register </span></Link>
+<Link to='/sign' className='hover:opacity-80 underline opacity-50'>Sign</Link>
+	  </div>
     </div>
   )
 }
