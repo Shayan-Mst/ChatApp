@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom'
 
 const Intro = () => {
   return (
-    <div className='text-center intro'>
+    <div className='text-center intro fade-in'>
       <div className='grid place-items-center'>
 
       <svg width="180" height="180"   version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -48,7 +48,7 @@ const Intro = () => {
 
       <div className='mt-12'>
 
-		<Link to='/dashboard' className='btn-one'>Start</Link>
+	   <Link to='/dashboard'>	<button className='btn-one'>Start</button> </Link>
 
       </div>
 	  <div className='flex justify-evenly  my-4 '>

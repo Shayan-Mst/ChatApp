@@ -41,6 +41,22 @@ body {
 }
 
 
+/* Fade-in animation */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* This class will apply the animation */
+.fade-in {
+  opacity: 0;
+  animation: fadeIn ease 1s;
+  animation-fill-mode: forwards; /* Ensures that the final state (opacity: 1) is retained */
+}
 
 
 
