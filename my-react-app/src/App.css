@@ -24,7 +24,7 @@
 }
 
 
-.intro{
+.middle-box{
 
   position: absolute;
   left: 50%;
@@ -45,4 +45,58 @@
 .btn-one:hover{
 
   background-color: var(--bg-btn-hover);
+}
+
+/*sign*/
+
+.sign-box{
+
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2), 
+  0 1px 3px rgba(0, 0, 0, 0.4); /* Smooth, layered shadow */
+  min-width: 350px;
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.input-container {
+  position: relative;
+  margin: 20px 0;
+  display: flex;
+}
+.input-container button{
+  border-radius: 4px;
+}
+.input-container input {
+  width: 100%;
+  padding: 8px 12px;
+  padding-top: 10px 20px;
+  font-size: 16px;
+  border: 2px solid #d4cfcf;
+  background-color:var(--bg-color);
+  border-radius: 16px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.input-container input:focus {
+  border-color: var(--bg-btn-hover);
+}
+
+.input-container span {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  font-size: 14px;
+  color: var(--primary-text);
+  pointer-events: none;
+  transform: translateY(-50%);
+  transition: all 0.3s ease;
+}
+
+.input-container input:focus + span,
+.input-container input:not(:placeholder-shown) + span {
+  top: 0;
+  font-size: 12px;
+  background-color:var(--bg-color);
+  color: var(--bg-btn-hover);
 }
