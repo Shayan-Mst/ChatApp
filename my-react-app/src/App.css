@@ -147,3 +147,71 @@
   visibility: visible;
   opacity: 1;
 }
+
+
+
+.status--container{
+  display: flex;
+  margin: 0 auto;
+  overflow-x: scroll;
+  scrollbar-width: none; /* Firefox: Hide scrollbar */
+  -ms-overflow-style: none;  /* IE and Edge: Hide scrollbar */
+  width: 100%; /* Set a fixed width to make scrolling necessary */
+  justify-content: center;
+}
+
+.online-status{
+
+  margin: 5px 10px;
+  position: relative;
+  flex: 0 0 auto; /* Prevents shrinking of child elements */
+
+}
+
+.online-status img{
+
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.online-status p{
+
+ text-align: center;
+ margin: 4px 0;
+}
+
+.online-status::after{
+  content: '';
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background-color: var(--bg-btn-hover);
+  border-radius: 50%;
+  right: 10px;
+  top: 50px;
+}
+
+.chat-item{
+  display: flex;
+  align-items: center;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.075), 0 3px 6px rgba(0, 0, 0, 0.05);
+  border-radius: 22px;
+  margin: 16px 0;
+  cursor: pointer;
+}
+
+.add-chat{
+
+  position:fixed;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background-color: var(--bg-btn);
+  width: 70px;
+  height: 70px;
+  bottom:20px;
+  right: 20px;
+  z-index: 10;
+}
