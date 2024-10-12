@@ -26,7 +26,7 @@
 
 
 body {
-  margin: 0;
+  margin: 0 auto;
   min-width: 320px;
   min-height: 100vh;
   color: var(--primary-text);
@@ -34,7 +34,7 @@ body {
 }
 #root {
   max-width: 1280px;
-  margin: 0 ;
+  margin: 0 auto;
   padding: 2rem;
   min-height: 100vh;
   

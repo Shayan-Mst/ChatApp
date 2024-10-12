@@ -48,7 +48,7 @@ const Intro = () => {
 
       <div className='mt-12'>
 
-	   <Link to='/dashboard'>	<button className='btn-one'>Start</button> </Link>
+	   <Link to='/home'>	<button className='btn-one'>Start</button> </Link>
 
       </div>
 	  <div className='flex justify-evenly  my-4 '>

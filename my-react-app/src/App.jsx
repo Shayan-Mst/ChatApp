@@ -5,6 +5,7 @@ import Intro from './components/Intro'
 import './App.css'
 import Sign from './components/Sign'
 import Register from './components/Register'
+import Home from './components/Home'
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
   <Route path='/' element={<Intro/>}/>
   <Route path='/sign' element={<Sign/>}/>
   <Route path='/register' element={<Register/>}/>
+  <Route path='/home' element={<Home/>}/>
 </Routes>
 
 

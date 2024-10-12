@@ -100,3 +100,50 @@
   background-color:var(--bg-color);
   color: var(--bg-btn-hover);
 }
+
+/*home*/
+
+.search-box {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background-color: white;
+  border-radius: 50px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+  width: 250px;
+  transition: width 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+}
+
+/* Expand the search box on focus */
+.search-box:focus-within {
+  width: 350px;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.25), 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+.search-box input {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  padding: 10px;
+  width: 100%;
+  font-size: 16px;
+  color: black;
+}
+
+.search-box .icon {
+  position: absolute;
+  right: 15px;
+  width: 24px;
+  height: 24px;
+  fill: black; /* SVG fill color is black */
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0.3s, opacity 0.3s;
+}
+
+/* Show icon on focus */
+.search-box input:focus + .icon {
+  visibility: visible;
+  opacity: 1;
+}
