@@ -6,13 +6,17 @@ import './App.css'
 import Sign from './components/Sign'
 import Register from './components/Register'
 import Home from './components/Home'
+import { ChatContext } from './context'
 
 function App() {
+
+  const [loading,setLoading] = useState(false)
+  const [sidebar , setSidebar] = useState(false)
 
 
   return (
   
-
+<ChatContext.Provider value={{loading,setLoading,sidebar,setSidebar}}>
     <div className='App'>
 
 
@@ -25,7 +29,7 @@ function App() {
 
 
     </div>
-    
+    </ChatContext.Provider>
   
   )
 }

@@ -1,11 +1,14 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import sophi from './../assets/sophi.jpg'
 import john from './../assets/john.jpg'
+import { ChatContext } from '../context';
+import Sidebar from './accessiblity/Sidebar';
 
 const Home = () => {
 
     const [showPlus, setShowPlus] = useState(false); // Controls the visibility of the plus icon
     const chatListRef = useRef(null);
+    const {setSidebar} = useContext(ChatContext)
 
     const chats = [
         {
@@ -36,81 +39,62 @@ const Home = () => {
           timeAgo: '10m ago',
           pfp: john,
         },
-        {
-            id: 4,
-            name: 'Mike',
-            lastMessage: 'Let’s have a meeting tomorrow.',
-            timeAgo: '10m ago',
-            pfp: john,
-          },
-          {
-            id: 4,
-            name: 'Mike',
-            lastMessage: 'Let’s have a meeting tomorrow.',
-            timeAgo: '10m ago',
-            pfp: john,
-          },
-          {
-            id: 4,
-            name: 'Mike',
-            lastMessage: 'Let’s have a meeting tomorrow.',
-            timeAgo: '10m ago',
-            pfp: john,
-          },
-          {
-            id: 4,
-            name: 'Mike',
-            lastMessage: 'Let’s have a meeting tomorrow.',
-            timeAgo: '10m ago',
-            pfp: john,
-          },
+        
+   
       ];
 
-    console.log(showPlus)
-      const body = document.body
-
-// Function to check if chat list is overflowing
-const checkOverflow = () => {
    
-    
-    if (body.scrollHeight >body.clientHeight) {
-      setShowPlus(false); // Initially hide when scrollable, but not scrolled yet
+useEffect(() => {
+    // Function to reveal the div when scrolling down or if no scrolling is available
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY || document.documentElement.scrollTop;
+      if (scrollPosition > 150) {
+        setShowPlus(true); // Reveal the div when user scrolls down 150px
+      }
+    };
+
+    // Check if scrolling is possible
+    if (document.body.scrollHeight <= window.innerHeight) {
+      setShowPlus(true); // Reveal if no scrolling is available
     } else {
-      setShowPlus(true); // Show if not overflowing
+      window.addEventListener('scroll', handleScroll);
     }
-  };
 
-  // Function to handle scroll event
-  const handleScroll = () => {
-   
-    if (body.scrollTop > 50) { // Show plus icon after scrolling down a bit (50px in this case)
-      setShowPlus(true);
-    } else {
-      setShowPlus(false);
-    }
-  };
-
-  useEffect(() => {
-    checkOverflow(); // Check if chat list is overflowing when component mounts
-
-   
-    body.addEventListener('scroll', handleScroll);
-
-    // Cleanup event listener on unmount
+    // Clean up the event listener
     return () => {
-      body.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
 
   
 
-  return (
+  return (<>
+  <Sidebar/>
     <div className='relative'>
 
-<div className='text-center'>
+<div className='text-center place-items-center flex justify-between'>
+    
+<svg className='cursor-pointer'
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 24 24"
+  width="36"
+  height="36"
+  fill="currentColor"
+  onClick={()=>setSidebar(true)}
+>
+ 
+  <rect y="5" width="24" height="2" rx="1"></rect>
+  
+  <rect y="11" width="24" height="2" rx="1"></rect>
+  
+  <rect y="17" width="24" height="2" rx="1"></rect>
+</svg>
+
 
     <span className='text-4xl font-semibold'>Chat<span style={{color:"#bbc625"}}>Nest</span></span>
+
+    <div></div>
 
 </div>
 
@@ -180,6 +164,7 @@ const checkOverflow = () => {
 
 
     </div>
+    </>
   )
 }
 
