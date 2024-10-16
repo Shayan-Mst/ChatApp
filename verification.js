@@ -5,7 +5,10 @@ const nodemailer = require('nodemailer');
 async function sendVerificationEmail(toEmail, code) {
   let transporter = nodemailer.createTransport({
     service: 'gmail', // Use your email service provider (e.g., Gmail)
-   
+    host: "smtp.ethereal.email",
+    port: 587,
+    secure: false, // true for port 465, false for other ports
+  
 
     auth: {
       user: 'chatappchatnest@gmail.com',
