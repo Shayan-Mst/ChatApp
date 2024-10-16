@@ -1,10 +1,15 @@
-import express from 'express'; // Ensure to use 'type': 'module' in package.json for ES Modules
-import http from 'http';
-import { Server } from 'socket.io';
-import cors from 'cors';
-import {connectToMongoDB} from './db.js'
-import bcrypt from 'bcrypt'; // Import bcrypt for password hashing
-import { generateCode, sendVerificationEmail, storeCode, verifyCode } from './verification.js'
+// Convert imports to CommonJS require syntax
+const express = require('express');
+const http = require('http');
+const { Server } = require('socket.io');
+const cors = require('cors');
+const { connectToMongoDB } = require('./db');
+const bcrypt = require('bcrypt');
+const {generateCode,sendVerificationEmail,storeCode,verifyCode} = require('./verification')
+
+
+
+// The rest of your code remains the same
 
 const app = express();
 const server = http.createServer(app);
@@ -18,6 +23,10 @@ let db; // This will hold the MongoDB connection
 
 
 
+
+
+
+
 // Connect to MongoDB before starting the server
 connectToMongoDB().then(database => {
   db = database;
@@ -26,6 +35,7 @@ connectToMongoDB().then(database => {
 app.post('/register', async (req, res) => {
   const { email, password, confirmPassword } = req.body;
 
+  
   // Validate password
   if (password !== confirmPassword) {
     return res.status(400).json({ message: 'Passwords do not match.' });
@@ -72,6 +82,7 @@ app.post('/verify-code', async (req, res) => {
 
 // Simple API endpoint
 app.get('/', (req, res) => {
+  console.log(req.ip)
   res.send('Hello from the backend!');
 });
 

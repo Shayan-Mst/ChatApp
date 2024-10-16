@@ -1,5 +1,6 @@
 // back/db.js
-import { MongoClient } from 'mongodb'; // Use ES module syntax
+const { MongoClient } = require('mongodb');
+
 
 // Connection URL and Database Name
 const url = 'mongodb://localhost:27017';
@@ -7,7 +8,7 @@ const dbName = 'chatAppDB';
 
 const client = new MongoClient(url);
 
-export async function connectToMongoDB() {
+ async function connectToMongoDB() {
   try {
     // Connect the client to the MongoDB server
     await client.connect();
@@ -20,3 +21,5 @@ export async function connectToMongoDB() {
     console.error('Error connecting to MongoDB:', error);
   }
 }
+
+module.exports = { connectToMongoDB };

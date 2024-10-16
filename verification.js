@@ -1,20 +1,34 @@
-// const nodemailer = require('nodemailer');
-import {nodemailer} from 'nodemailer'
+const nodemailer = require('nodemailer');
 
-export async function sendVerificationEmail(toEmail, code) {
+
+
+async function sendVerificationEmail(toEmail, code) {
   let transporter = nodemailer.createTransport({
     service: 'gmail', // Use your email service provider (e.g., Gmail)
+   
+
     auth: {
-      user: 'your-email@gmail.com',
-      pass: 'your-email-password', // Use an app password for security
+      user: 'chatappchatnest@gmail.com',
+      pass: 'uexy saiu duwi fglz ', // Use an app password for security
     },
   });
 
   let mailOptions = {
-    from: 'your-email@gmail.com',
+    from: 'chatappchatnest@gmail.com',
     to: toEmail,
     subject: 'Your Verification Code',
-    text: `Your verification code is: ${code}`,
+    html: `
+    <p>Hi there!</p>
+    <p>Welcome to <strong>chatNest</strong>, your new favorite way to stay connected with friends, family, and colleagues. To make sure it's really you, we just need to verify your email before you can start chatting securely.</p>
+    <p>Your security code is:</p>
+    <p style="font-size: 24px; font-weight: bold;">${code}</p>
+    <p>Please enter this code in the app to complete your email verification. If you didn’t request this, feel free to ignore this message.</p>
+    <p>Thank you for choosing <strong>chatNest</strong>! We can't wait for you to start chatting seamlessly and securely.</p>
+    <br>
+    <p>Best regards,</p>
+    <p>The chatNest Team</p>
+  `
+
   };
 
   try {
@@ -25,7 +39,7 @@ export async function sendVerificationEmail(toEmail, code) {
   }
 }
 
-export function generateCode() {
+ function generateCode() {
     return Math.floor(100000 + Math.random() * 900000); // Generates a 6-digit number
   }
   
@@ -33,7 +47,7 @@ export function generateCode() {
 
 let verificationCodes = {}; // Object to store codes
 
-export function storeCode(email, code) {
+ function storeCode(email, code) {
   // Store the code with a 5-minute expiry
   verificationCodes[email] = {
     code: code,
@@ -41,7 +55,7 @@ export function storeCode(email, code) {
   };
 }
 
-export function verifyCode(email, code) {
+ function verifyCode(email, code) {
   const data = verificationCodes[email];
 
   if (!data) {
@@ -60,3 +74,4 @@ export function verifyCode(email, code) {
   return { valid: true, message: 'Code verified successfully!' };
 }
 
+module.exports = { generateCode,storeCode,verifyCode,sendVerificationEmail };
