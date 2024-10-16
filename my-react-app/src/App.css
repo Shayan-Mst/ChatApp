@@ -30,7 +30,7 @@
   left: 50%;
   top: 50%;
   transform: translate(-50%,-50%);
-  width: max-content;
+  width: fit-content;
 }
 
 .btn-one{
@@ -42,9 +42,19 @@
   width: 100%;
 }
 
+
 .btn-one:hover{
 
   background-color: var(--bg-btn-hover);
+}
+
+.btn-confirm{
+  border-radius: 16px;
+  background-color: var(--bg-btn);
+  color: var(--secondary-text);
+  padding: 5px 20px;
+  margin: 0 10px;
+  
 }
 
 /*sign*/

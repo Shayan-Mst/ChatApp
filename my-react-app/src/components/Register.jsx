@@ -1,6 +1,113 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState,useRef, useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { codeApi, registerApi } from '../api/users';
 const Register = () => {
+
+  const [register,setRegister] = useState({
+    email:'',
+    password:'',
+    confirmPassword:'',
+    
+  })
+  const [counter,setCounter] = useState(59)
+  const [isActive, setIsActive] = useState(false);
+  const [confirm,setConfirm] = useState(true)
+
+  const [final,setFinal] = useState({
+    email:'',
+    code:'',
+    password:'',
+    
+  })
+
+  useEffect(()=>{
+
+    setFinal({...final,email:register.email,password:register.password})
+
+  },[register.email,register.password])
+
+  const email = useRef(null)
+  const password = useRef(null)
+  const confirm_password = useRef(null)
+  const codeRef = useRef(null)
+  const registerRef = useRef(null)
+  const confirmRef = useRef(null)
+  const resendRef = useRef(null)
+
+  const navigate  = useNavigate()
+
+   // useEffect to handle the countdown when the timer is active
+   useEffect(() => {
+    let interval = null;
+
+    if (isActive && counter > 0) {
+      // Set up the interval to decrease time every 1000ms (1 second)
+      interval = setInterval(() => {
+        setCounter(prevTime => prevTime - 1);
+      }, 1000);
+    } else if (counter === 0) {
+      // Stop the timer when time reaches 0
+      clearInterval(interval);
+      setIsActive(false); // Stop the timer when countdown finishes
+      resendRef.current.disabled=false
+    }
+
+    return () => clearInterval(interval); // Clean up the interval on component unmount
+  }, [isActive, counter]);
+
+
+  const submit = async(e) => {
+
+    e.preventDefault();
+    
+
+    try{
+      console.log(register)
+       const response = await registerApi(register)
+
+       if(response.status==200){
+
+      email.current.disabled = true;
+      password.current.disabled = true;
+      confirm_password.current.disabled = true;
+      codeRef.current.disabled = false;
+      registerRef.current.disabled = true;
+      setConfirm(false)
+      setIsActive(true);
+      
+   
+
+       }
+
+    }
+    catch(error){
+
+      console.log(error)
+
+    }
+
+
+  }
+
+  const confirmCode = async() => {
+    console.log('click')
+    try{
+
+      const response = await codeApi(final)
+      console.log(response)
+      if(response.status == 200){
+
+        navigate('/home')
+      }
+
+    }
+    catch(error){
+
+      console.log(error)
+
+    }
+  }
+
   return (
     <div className='fade-in middle-box'>
 
@@ -10,37 +117,42 @@ const Register = () => {
     <span className='text-3xl text-center font-semibold'>ChatNest</span>
     </div>
 
-    <form className='sign-box'>
+    <div className='sign-box'>
 
 
     <div className="input-container">
-<input type="email" placeholder="" id="input"/>
+<input ref={email} value={register.email} onChange={(e)=>setRegister({...register,email: e.target.value})} type="email" placeholder="" id="input"/>
 <span>Email</span>
 {/* <button className='py-3 sm:px-12 px-6 bg-purple-600 ml-4 text-white '>Search</button> */}
 </div>
 
 <div className="input-container">
-<input type="password" placeholder="" id="input"/>
+<input ref={password} value={register.password} onChange={(e)=>setRegister({...register,password: e.target.value})}  type="password" placeholder="" id="input"/>
 <span>Password</span>
 {/* <button className='py-3 sm:px-12 px-6 bg-purple-600 ml-4 text-white '>Search</button> */}
 </div>
 
 <div className="input-container">
-<input type="password" placeholder="" id="input"/>
+<input ref={confirm_password} value={register.confirmPassword} onChange={(e)=>setRegister({...register,confirmPassword: e.target.value})}  type="password" placeholder="" id="input"/>
 <span>Confirm Password</span>
 {/* <button className='py-3 sm:px-12 px-6 bg-purple-600 ml-4 text-white '>Search</button> */}
 </div>
 <br/>
 
 <div className="input-container">
-<input disabled  type="text" placeholder="" id="input"/>
+<input ref={codeRef} disabled value={final.code} onChange={(e)=>setFinal({...final,code: e.target.value})} type="text" placeholder="" id="input"/>
 <span>Confirm Code</span>
 {/* <button className='py-3 sm:px-12 px-6 bg-purple-600 ml-4 text-white '>Search</button> */}
+<button onClick={confirmCode} ref={confirmRef} disabled={confirm} style={{borderRadius:"16px"}} className='btn-confirm text-sm'>confirm</button>
+
+
 </div>
 
+<button ref={resendRef} disabled className='underline text-blue-500 mb-2' >resend code </button>
+{counter>0 &&<span> in {counter} second</span>}
 
 
-<button type='submit' className='btn-one'>Register</button>
+<button ref={registerRef} onClick={(e)=>submit(e)} className='btn-one'>Register</button>
 
 <div className='flex justify-evenly text-sm my-2'>
 <span>Already have an account?</span>
@@ -48,7 +160,7 @@ const Register = () => {
 </div>
 
 
-    </form>
+    </div>
 
 </div>
   )
