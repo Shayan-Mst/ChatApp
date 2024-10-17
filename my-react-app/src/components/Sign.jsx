@@ -18,7 +18,8 @@ try{
   const response = await LoginApi(user);
   if(response.status == 200){
 
-    Cookies.set('token',response.data)
+   
+    Cookies.set('token',response.data.token)
 
     navigate('/home')
 
