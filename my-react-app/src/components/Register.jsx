@@ -102,7 +102,19 @@ const Register = () => {
       console.log(response)
       if(response.status == 200){
 
-        navigate('/sign')
+        
+          const toaster = document.getElementById('toaster');
+          toaster.classList.add('show');
+      
+          // Hide toaster after 3 seconds
+          setTimeout(() => {
+              toaster.classList.remove('show');
+              navigate('/sign')
+          }, 2000);
+      
+        
+
+       
       }
 
     }
@@ -195,6 +207,10 @@ const Register = () => {
           </div>
         </div>
       )}
+
+<div class="toaster" id="toaster">
+        <span> Successfully Registered!</span>
+    </div>
 </>
   )
 }
