@@ -17,3 +17,11 @@ export const codeApi = (user) => {
 
 
 }
+
+export const LoginApi = (user) => {
+
+    const url = `${SERVER_URL}/login`
+    return axios.post(url,user);
+
+
+}

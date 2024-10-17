@@ -1,8 +1,45 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { LoginApi } from '../api/users';
+import Cookies from 'js-cookie';
 
 const Sign = () => {
+  const [user,setUser] = useState({
+    email:'',
+    password:''
+  })
+  const navigate = useNavigate()
+  
+async function submit(e){
+e.preventDefault();
+
+try{
+
+  const response = await LoginApi(user);
+  if(response.status == 200){
+
+    Cookies.set('token',response.data)
+
+    navigate('/home')
+
+
+  }
+}
+catch(error){
+
+  const toaster = document.getElementById('toaster');
+  toaster.classList.add('show');
+  setTimeout(()=>{
+    toaster.classList.remove('show');
+  },2000)
+
+
+
+
+  }
+}
   return (
+    <>
     <div className='fade-in middle-box'>
 
         <div className='flex items-center justify-center'>
@@ -11,17 +48,17 @@ const Sign = () => {
         <span className='text-3xl text-center font-semibold'>ChatNest</span>
         </div>
 
-        <form className='sign-box'>
+        <form onSubmit={(e)=>submit(e)} className='sign-box'>
 
 
         <div className="input-container">
-    <input type="email" placeholder="" id="input"/>
+    <input value={user.email} onChange={(e)=>setUser({...user,email:e.target.value})} type="email" placeholder="" id="input"/>
     <span>Email</span>
     {/* <button className='py-3 sm:px-12 px-6 bg-purple-600 ml-4 text-white '>Search</button> */}
   </div>
 
   <div className="input-container">
-    <input type="password" placeholder="" id="input"/>
+    <input value={user.password} onChange={(e)=>setUser({...user,password:e.target.value})} type="password" placeholder="" id="input"/>
     <span>Password</span>
     {/* <button className='py-3 sm:px-12 px-6 bg-purple-600 ml-4 text-white '>Search</button> */}
   </div>
@@ -37,6 +74,10 @@ const Sign = () => {
         </form>
 
     </div>
+    <div className="toaster-error" id="toaster">
+        <span>Email or Password is wrong!</span>
+    </div>
+    </>
   )
 }
 

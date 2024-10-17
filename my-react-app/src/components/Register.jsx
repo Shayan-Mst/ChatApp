@@ -94,6 +94,8 @@ const Register = () => {
 
   }
 
+  console.log(final.password)
+
   const confirmCode = async() => {
 
     try{
