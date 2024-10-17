@@ -57,6 +57,13 @@
   
 }
 
+.btn-confirm:hover{
+
+  color: var(--bg-btn-hover);
+  border: 1px solid var(--bg-btn-hover);
+  background-color: unset;
+}
+
 /*sign*/
 
 .sign-box{
@@ -109,6 +116,16 @@
   font-size: 12px;
   background-color:var(--bg-color);
   color: var(--bg-btn-hover);
+}
+
+.resend--code{
+
+  color: var(--bg-btn);
+  border: 1px solid var(--bg-btn);
+  outline: 1px solid var(--bg-btn-hover);
+  padding: 5px 15px;
+  border-radius: 15px;
+  width: 100%;
 }
 
 /*home*/
