@@ -6,6 +6,9 @@ const cors = require('cors');
 const { connectToMongoDB } = require('./db');
 const bcrypt = require('bcrypt');
 const {generateCode,sendVerificationEmail,storeCode,verifyCode} = require('./verification')
+const User = require('./models/users');
+const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
 
 
 
@@ -23,8 +26,14 @@ let db; // This will hold the MongoDB connection
 
 
 
+const uri = 'mongodb://localhost:27017/chatAppDB'; // Replace with your database name
 
-
+mongoose.connect(uri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+})
+.then(() => console.log('MongoDB connected'))
+.catch(err => console.error('MongoDB connection error:', err));
 
 
 // Connect to MongoDB before starting the server
@@ -80,10 +89,38 @@ app.post('/verify-code', async (req, res) => {
   }
 });
 
-// Simple API endpoint
-app.get('/', (req, res) => {
-  console.log(req.ip)
-  res.send('Hello from the backend!');
+// Login Route
+app.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+
+  
+  try {
+
+    
+      // Find the user by username
+      const user = await User.findOne({ email });
+      console.log(user)
+      if (!user) {
+          return res.status(400).json({ message: 'Invalid credentials' });
+      }
+
+      // Compare passwords
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) {
+          return res.status(400).json({ message: 'Invalid credentials' });
+      }
+
+      // Generate token
+      const token = jwt.sign({ id: user._id, email: user.email }, 'your_jwt_secret', {
+          expiresIn: '2h', // Token expiration time
+      });
+
+      // Return the token
+      return res.status(200).json({ token });
+  } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: error });
+  }
 });
 
 // Socket.io connection
