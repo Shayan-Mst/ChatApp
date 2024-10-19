@@ -18,7 +18,6 @@ try{
   const response = await LoginApi(user);
   if(response.status == 200){
 
-   
     Cookies.set('token',response.data.token)
 
     navigate('/home')
@@ -28,6 +27,7 @@ try{
 }
 catch(error){
 
+  
   const toaster = document.getElementById('toaster');
   toaster.classList.add('show');
   setTimeout(()=>{

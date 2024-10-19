@@ -7,6 +7,7 @@ import Sign from './components/Sign'
 import Register from './components/Register'
 import Home from './components/Home'
 import { ChatContext } from './context'
+import Chat from './components/Chat'
 
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
   <Route path='/sign' element={<Sign/>}/>
   <Route path='/register' element={<Register/>}/>
   <Route path='/home' element={<Home/>}/>
+  <Route path='/chat' element={<Chat/>}/>
 </Routes>
 
 

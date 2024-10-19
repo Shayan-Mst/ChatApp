@@ -25,20 +25,25 @@
 
 
 
-body {
+body,html {
   margin: 0 auto;
   min-width: 320px;
   color: var(--primary-text);
   background-color: var(--bg-color);
+  height: 100%;
 }
 #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
+  height: 100%;
   
   
 }
 
+.App{
+  height: 100%;
+}
 
 /* Fade-in animation */
 @keyframes fadeIn {

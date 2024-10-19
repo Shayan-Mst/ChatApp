@@ -20,6 +20,7 @@
 
 --bg-btn : #bbc625;
 --bg-btn-hover : #A5B400;
+--bg-chat : #e6f149;
 --bg-btn-secondary: #F0F2CE;
 }
 
@@ -450,4 +451,136 @@
 .signature span{
 
   font-size: 0.8rem;
+}
+
+/* chat */
+
+.pfp{
+
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 0 15px;
+}
+
+.myText{
+
+  background-color: var(--bg-btn-hover);
+  color: var(--secondary-text);
+  display: flex;
+  width: fit-content;
+  justify-content: flex-end;
+
+}
+
+.yourText{
+
+  background-color: var(--bg-chat);
+  width: fit-content;
+  justify-content: flex-start;
+  display: flex;
+}
+
+
+.chat-container {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  height: 75%;
+  overflow-y: scroll;
+  scrollbar-width: none; /* Firefox: Hide scrollbar */
+  -ms-overflow-style: none;  /* IE and Edge: Hide scrollbar */
+
+}
+
+.chat-message {
+  display: flex;
+  margin: 10px 0;
+}
+
+.chat-message.left {
+  justify-content: flex-start;
+}
+
+.chat-message.right {
+  justify-content: flex-end;
+}
+.time {
+  display: block;
+  font-size: 10px; /* Smaller font size for the time */
+  opacity: 0.7;
+  margin-top: 5px; /* Space between the message and the time */
+}
+.message {
+  max-width: 70%;
+  padding: 10px 15px;
+  border-radius: 15px;
+  font-size: 14px;
+  line-height: 1.5;
+  background-color: #e0e0e0;
+}
+
+.chat-message.left .message {
+  background-color: var(--bg-chat);
+}
+
+.chat-message.right .message {
+  background-color: var(--bg-btn-hover);
+  color: var(--secondary-text);
+}
+
+.message {
+  position: relative;
+}
+
+.chat-message.left .message::after {
+  content: '';
+  position: absolute;
+  top: 10px;
+  left: -10px;
+  border-width: 10px;
+  border-style: solid;
+  border-color: transparent var(--bg-chat) transparent transparent;
+}
+
+.chat-message.right .message::after {
+  content: '';
+  position: absolute;
+  top: 10px;
+  right: -10px;
+  border-width: 10px;
+  border-style: solid;
+  border-color: transparent transparent transparent var(--bg-btn-hover);
+}
+
+.type--container{
+  display: flex;
+  margin: 0 auto;
+  max-width: 700px;
+ 
+  
+}
+
+.type--message{
+
+  max-height: calc(1.5em * 2 + 20px); /* Limit height to 4 lines of text (adjust based on line-height and padding) */
+ 
+  height: 24px;
+  resize: none; /* Prevent manual resizing */
+  width: 100%;
+  flex: 1;
+  scrollbar-width: none; /* Firefox: Hide scrollbar */
+  -ms-overflow-style: none;  /* IE and Edge: Hide scrollbar */
+
+}
+
+.type--message:focus{
+
+ outline: 0;
+  
+  
 }
