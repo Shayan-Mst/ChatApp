@@ -9,6 +9,7 @@ import Home from './components/Home'
 import { ChatContext } from './context'
 import Chat from './components/Chat'
 import Profile from './components/Profile'
+import Setting from './components/Setting'
 
 function App() {
 
@@ -28,7 +29,9 @@ function App() {
   <Route path='/register' element={<Register/>}/>
   <Route path='/home' element={<Home/>}/>
   <Route path='/chat' element={<Chat/>}/>
-  <Route path='/profile' element={<Profile/>}/>
+ 
+  <Route path='/setting' element={<Setting/>}/>
+  <Route path='/setting/profile' element={<Profile/>}/>
 
 </Routes>
 
