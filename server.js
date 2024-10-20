@@ -16,7 +16,16 @@ const jwt = require('jsonwebtoken');
 
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server);
+
+//CORS Needed to avoid cores error by browser policies
+const io = new Server(server, {
+  cors: {
+    origin: 'http://localhost:5173', // Replace with your frontend URL
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type'],
+    credentials: true, // Allow credentials if needed
+  },
+});
 
 
 // Middleware
@@ -124,16 +133,33 @@ app.post('/login', async (req, res) => {
 });
 
 // Socket.io connection
-io.on('connection', (socket) => {
-  console.log('New client connected');
+chatCollection = db.collection('messages');
 
-  socket.on('message', (msg) => {
-    console.log('Message received:', msg);
-    // Handle incoming messages here
+io.on('connection', (socket) => {
+  console.log('A user connected:', socket.id);
+
+  // Load previous messages between two users
+  socket.on('load_messages', async ({ sender, receiver }) => {
+    const messages = await chatCollection
+      .find({ $or: [
+          { sender, receiver },
+          { sender: receiver, receiver: sender }
+        ]})
+      .toArray();
+    socket.emit('previous_messages', messages);
+  });
+
+  // Handle sending messages
+  socket.on('send_message', async (data) => {
+    // Save the message to MongoDB
+    await chatCollection.insertOne(data);
+
+    // Emit the message to the receiver
+    socket.broadcast.emit('receive_message', data);
   });
 
   socket.on('disconnect', () => {
-    console.log('Client disconnected');
+    console.log('A user disconnected:', socket.id);
   });
 });
 
