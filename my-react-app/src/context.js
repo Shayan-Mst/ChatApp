@@ -9,7 +9,11 @@ export const ChatContext = createContext({
    
     sidebar : false,
 
-    setSidebar : () => {}
+    setSidebar : () => {},
+
+    currentUser : '',
+
+    setCurrentUser : () => {}
 
 
 })

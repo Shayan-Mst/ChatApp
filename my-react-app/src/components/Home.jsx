@@ -3,16 +3,24 @@ import sophi from './../assets/sophi.jpg'
 import john from './../assets/john.jpg'
 import { ChatContext } from '../context';
 import Sidebar from './accessiblity/Sidebar';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
 
     const [showPlus, setShowPlus] = useState(false); // Controls the visibility of the plus icon
     const chatListRef = useRef(null);
     const {setSidebar} = useContext(ChatContext)
+    const navigate = useNavigate();
+
+    //goes to chat page with that chatWithUser account
+  const handleChat = (chatWithUser) => {
+    navigate(`/chat/${chatWithUser}`);
+  };
 
     const chats = [
         {
           id: 1,
+          email : "Alice@gmail.com",
           name: 'Sophi',
           lastMessage: 'Hey, are we still on for tonight?',
           timeAgo: '4h ago',
@@ -20,6 +28,7 @@ const Home = () => {
         },
         {
           id: 2,
+          email : "Alice@gmail.com",
           name: 'John',
           lastMessage: 'Can you send me the file?',
           timeAgo: '2h ago',
@@ -27,6 +36,7 @@ const Home = () => {
         },
         {
           id: 3,
+          email : "Alice@gmail.com",
           name: 'Alice',
           lastMessage: 'It was great catching up!',
           timeAgo: '1h ago',
@@ -34,6 +44,7 @@ const Home = () => {
         },
         {
           id: 4,
+          email : "Alice@gmail.com",
           name: 'Mike',
           lastMessage: 'Let’s have a meeting tomorrow.',
           timeAgo: '10m ago',
@@ -135,7 +146,7 @@ useEffect(() => {
 
 <div ref={chatListRef} className=" max-w-md mx-auto mt-8 ">
       {chats.map((chat) => (
-        <div key={chat.id} className="chat-item  p-4  hover:bg-gray-100 transition duration-150">
+        <div onClick={()=>handleChat(chat.email)} key={chat.id} className="chat-item  p-4  hover:bg-gray-100 transition duration-150">
           <img
             src={chat.pfp}
             alt={chat.name}

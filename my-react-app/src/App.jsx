@@ -16,11 +16,12 @@ function App() {
 
   const [loading,setLoading] = useState(false)
   const [sidebar , setSidebar] = useState(false)
+  const [currentUser,setCurrentUser] = useState('')
 
 
   return (
   
-<ChatContext.Provider value={{loading,setLoading,sidebar,setSidebar}}>
+<ChatContext.Provider value={{loading,setLoading,sidebar,setSidebar,currentUser,setCurrentUser}}>
     <div className='App'>
 
 <Routes>
@@ -28,7 +29,7 @@ function App() {
   <Route path='/sign' element={<Sign/>}/>
   <Route path='/register' element={<Register/>}/>
   <Route path='/home' element={<Home/>}/>
-  <Route path='/chat' element={<Chat/>}/>
+  <Route path='/chat/:chatWith' element={<Chat/>}/>
   <Route path='/profile' element={<UserProfile/>}/>
  
   <Route path='/setting' element={<Setting/>}/>

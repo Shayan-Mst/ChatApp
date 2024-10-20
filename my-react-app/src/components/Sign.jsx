@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { LoginApi } from '../api/users';
 import Cookies from 'js-cookie';
+import { ChatContext } from '../context';
 
 const Sign = () => {
   const [user,setUser] = useState({
@@ -9,6 +10,7 @@ const Sign = () => {
     password:''
   })
   const navigate = useNavigate()
+  const {setCurrentUser} = useContext(ChatContext)
   
 async function submit(e){
 e.preventDefault();
@@ -19,6 +21,8 @@ try{
   if(response.status == 200){
 
     Cookies.set('token',response.data.token)
+    localStorage.setItem('email',user.email)
+    setCurrentUser(user.email)
 
     navigate('/home')
 
