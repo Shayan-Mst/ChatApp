@@ -15,6 +15,7 @@ const Chat = () => {
     const textareaRef = useRef(null);
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
+    
     const {currentUser} = useContext(ChatContext)
     const navigate = useNavigate()
     const { chatWith } = useParams(); // chatWith comes from the URL
@@ -47,6 +48,7 @@ const Chat = () => {
     socket.emit('load_messages', { sender: currentUser?currentUser:localStorage.getItem('email'), receiver: chatWith });
 
     socket.on('previous_messages', (prevMessages) => {
+ 
       setMessages(prevMessages);
     });
 
@@ -62,7 +64,14 @@ const Chat = () => {
       sender: currentUser?currentUser:localStorage.getItem('email'),
       receiver: chatWith,
       message,
-      time: new Date(),
+      time: new Date().toLocaleString(undefined, {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false // 24-hour format, change to true for AM/PM
+      }),
     };
 
     // Send the message to the server
@@ -70,6 +79,7 @@ const Chat = () => {
     setMessages((prev) => [...prev, messageData]);
     setMessage(''); // Clear the input field
   };
+  
 
   return (
   <>
@@ -99,7 +109,7 @@ alt='user'/>
       msg.sender == currentUser || msg.sender == localStorage.getItem('email')?<div className="chat-message right" key={index}>
       <div className="message">
        {msg.message}
-        <span className="time">{msg.time.toString()}</span>
+        <span className="time">{msg.time}</span>
       </div>
       
       </div>:
@@ -107,7 +117,7 @@ alt='user'/>
  <div className="chat-message left" key={index}>
  <div className="message">
  {msg.message}
-   <span className="time">{msg.time.toString()}</span>
+   <span className="time">{msg.time}</span>
  </div>
  
 </div>
@@ -117,14 +127,7 @@ alt='user'/>
 
     ))}
    
-   
- 
-    
-    
-
-   
-   
-
+  
 </section>
 
 <footer  className=' type--container'>

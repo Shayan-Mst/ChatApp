@@ -20,7 +20,7 @@ const Home = () => {
     const chats = [
         {
           id: 1,
-          email : "Alice@gmail.com",
+          email : "dispersion00712@gmail.com",
           name: 'Sophi',
           lastMessage: 'Hey, are we still on for tonight?',
           timeAgo: '4h ago',
@@ -28,7 +28,7 @@ const Home = () => {
         },
         {
           id: 2,
-          email : "Alice@gmail.com",
+          email : "chatgptaiuser2023@gmail.com",
           name: 'John',
           lastMessage: 'Can you send me the file?',
           timeAgo: '2h ago',
