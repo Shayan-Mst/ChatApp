@@ -4,6 +4,7 @@ import { LoginApi } from '../api/users';
 import Cookies from 'js-cookie';
 import { ChatContext } from '../context';
 
+
 const Sign = () => {
   const [user,setUser] = useState({
     email:'',
@@ -24,7 +25,14 @@ try{
     localStorage.setItem('email',user.email)
     setCurrentUser(user.email)
 
-    navigate('/home')
+    const profile = localStorage.getItem('profile');
+
+    if(!profile)  navigate('/profile/completion')
+
+    else{
+      navigate('/home')
+    }
+    
 
 
   }

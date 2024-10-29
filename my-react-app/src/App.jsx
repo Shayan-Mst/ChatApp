@@ -11,6 +11,7 @@ import Chat from './components/Chat'
 import Profile from './components/Profile'
 import Setting from './components/Setting'
 import UserProfile from './components/UserProfile'
+import MakeProfile from './components/MakeProfile'
 
 function App() {
 
@@ -31,6 +32,8 @@ function App() {
   <Route path='/home' element={<Home/>}/>
   <Route path='/chat/:chatWith' element={<Chat/>}/>
   <Route path='/profile' element={<UserProfile/>}/>
+  <Route path='/profile/completion' element={<MakeProfile/>}/>
+  
  
   <Route path='/setting' element={<Setting/>}/>
   <Route path='/setting/profile' element={<Profile/>}/>
