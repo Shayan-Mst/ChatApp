@@ -7,8 +7,14 @@ const { connectToMongoDB } = require('./db');
 const bcrypt = require('bcrypt');
 const {generateCode,sendVerificationEmail,storeCode,verifyCode} = require('./verification')
 const User = require('./models/users');
+const Profile = require('./models/profile');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
+const {verifyToken} = require('./middleware/auth')
+require('dotenv').config();
+
+
+
 
 
 
@@ -33,14 +39,9 @@ app.use(cors());
 app.use(express.json()); // To parse JSON bodies
 let db; // This will hold the MongoDB connection
 
+const url = 'mongodb://localhost:27017/chatAppDB'; // Replace with your database name
 
-
-const uri = 'mongodb://localhost:27017/chatAppDB'; // Replace with your database name
-
-mongoose.connect(uri, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-})
+mongoose.connect(url)
 .then(() => console.log('MongoDB connected'))
 .catch(err => console.error('MongoDB connection error:', err));
 
@@ -108,6 +109,7 @@ app.post('/login', async (req, res) => {
     
       // Find the user by username
       const user = await User.findOne({ email });
+     
       
       if (!user) {
           return res.status(400).json({ message: 'Invalid credentials' });
@@ -119,8 +121,9 @@ app.post('/login', async (req, res) => {
           return res.status(400).json({ message: 'Invalid credentials' });
       }
 
+   
       // Generate token
-      const token = jwt.sign({ id: user._id, email: user.email }, 'your_jwt_secret', {
+      const token = jwt.sign({ id: user._id, email: user.email },process.env.JWT_SECRET, {
           expiresIn: '2h', // Token expiration time
       });
 
@@ -162,6 +165,78 @@ io.on('connection', (socket) => {
     console.log('A user disconnected:', socket.id);
   });
 });
+
+
+app.get('/chat-list/:email', async (req, res) => {
+  const userEmail = req.params.email;
+
+  try {
+    const messages = await db.collection('messages').find({
+      $or: [
+        { sender: userEmail },
+        { receiver: userEmail }
+      ]
+    }).toArray();
+
+    // Group messages by the other user (sender or receiver, depending on the logged-in user)
+    const chatList = {};
+
+    messages.forEach((msg) => {
+      const chatWith = msg.sender === userEmail ? msg.receiver : msg.sender;
+
+      // If the conversation doesn't exist, initialize it with this message
+      if (!chatList[chatWith]) {
+        chatList[chatWith] = msg;
+      } else {
+        // If a message already exists, replace it only if this one is newer
+        if (new Date(msg.time) > new Date(chatList[chatWith].time)) {
+          chatList[chatWith] = msg;
+        }
+      }
+    });
+
+    // Send the grouped chat list to the frontend
+    res.json(Object.values(chatList));
+  } catch (error) {
+    res.status(500).json({ error: 'An error occurred' });
+  }
+});
+
+app.get('/api/profile/check', async (req, res) => {
+  const { userID } = req.query;
+  const profile = await Profile.findOne({ userID });
+
+  if (!profile) {
+    return res.status(404).json({ profileCompleted: false });
+  }
+
+  if (!profile.name || !profile.userID) {
+    return res.status(400).json({ profileCompleted: false });
+  }
+
+  return res.status(200).json({ profileCompleted: true });
+});
+
+app.post('/api/profile/complete',verifyToken, async (req, res) => {
+  
+  const { name, profilePicture, bio, birthday } = req.body;
+
+  if (!name) {
+    return res.status(400).json({ error: 'Name is required' });
+  }
+
+  // Create or update the profile
+  const newProfile = new Profile({
+    name,
+    profilePicture,
+    bio,
+    birthday,
+  });
+
+  await newProfile.save();
+  res.status(200).json({ message: 'Profile updated successfully' });
+});
+
 
 // Start the server
 const PORT = process.env.PORT || 3000;
