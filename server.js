@@ -2,6 +2,7 @@
 const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
+const bodyParser = require('body-parser');
 const cors = require('cors');
 const { connectToMongoDB } = require('./db');
 const bcrypt = require('bcrypt');
@@ -11,6 +12,7 @@ const Profile = require('./models/profile');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const {verifyToken} = require('./middleware/auth')
+const multer = require('multer');
 require('dotenv').config();
 
 
@@ -37,6 +39,8 @@ const io = new Server(server, {
 // Middleware
 app.use(cors());
 app.use(express.json()); // To parse JSON bodies
+app.use(bodyParser.json({ limit: '10mb' })); // Set limit according to your needs
+app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 let db; // This will hold the MongoDB connection
 
 const url = 'mongodb://localhost:27017/chatAppDB'; // Replace with your database name
@@ -202,25 +206,40 @@ app.get('/chat-list/:email', async (req, res) => {
   }
 });
 
-app.get('/api/profile/check', async (req, res) => {
-  const { userID } = req.query;
-  const profile = await Profile.findOne({ userID });
+app.get('/api/profile/check',verifyToken, async (req, res) => {
+  const  email = req.query.email;
+  const profile = await Profile.findOne({ email });
+
+  
 
   if (!profile) {
-    return res.status(404).json({ profileCompleted: false });
+    return res.status(400).json({message : "no profile found"});
   }
 
-  if (!profile.name || !profile.userID) {
-    return res.status(400).json({ profileCompleted: false });
-  }
-
-  return res.status(200).json({ profileCompleted: true });
+  return res.status(200).json({message: "profile found"});
 });
 
-app.post('/api/profile/complete',verifyToken, async (req, res) => {
-  
-  const { name, profilePicture, bio, birthday } = req.body;
 
+const upload = multer({
+    limits: { fileSize: 2 * 1024 * 1024 }, // Set file size limit to 2MB
+    fileFilter: (req, file, cb) => {
+        const filetypes = /jpeg|jpg|png|gif/;
+        const mimetype = filetypes.test(file.mimetype);
+        const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+
+        if (mimetype && extname) {
+            return cb(null, true);
+        }
+        cb('Error: File upload only supports the following filetypes - ' + filetypes);
+    }
+});
+
+
+app.post('/api/profile/complete',verifyToken,upload.single('profilePicture'), async (req, res) => {
+  
+  const { name, bio, birthday , email , userID , profilePicture } = req.body;
+  
+  console.log(profilePicture)
   if (!name) {
     return res.status(400).json({ error: 'Name is required' });
   }
@@ -231,12 +250,30 @@ app.post('/api/profile/complete',verifyToken, async (req, res) => {
     profilePicture,
     bio,
     birthday,
+    email,
+    userID
   });
 
   await newProfile.save();
   res.status(200).json({ message: 'Profile updated successfully' });
 });
 
+// Route to get profile data
+app.get('/api/profile', verifyToken, async (req, res) => {
+  try {
+    const user = await User.findById(req.userId) // Exclude password for security
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const profile = await Profile.findOne({email : user.email}).select('-_id -__v')
+
+    res.status(200).json({ profile : profile });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
 
 // Start the server
 const PORT = process.env.PORT || 3000;
