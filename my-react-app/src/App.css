@@ -684,3 +684,41 @@
     opacity: 1;
   }
 }
+
+/* Container for a neat layout */
+.date-input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.date-input-label {
+  font-size: 0.8rem;
+  color: #333;
+  text-align: left;
+}
+
+.date-input {
+  width: 100%;
+  padding: 10px 15px;
+  font-size: 1rem;
+  font-family: inherit;
+  color: #333;
+  background-color: #f7f9fc;
+  border: 1px solid #d0d4da;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Smooth shadow and color change on focus */
+.date-input:focus {
+  border-color: #4a90e2;
+  box-shadow: 0 4px 8px rgba(74, 144, 226, 0.2);
+}
+
+/* Optional: Add icon styling if desired */
+.date-input::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  filter: invert(30%);
+}

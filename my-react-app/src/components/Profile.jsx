@@ -1,6 +1,7 @@
-import React,{useState,useRef} from 'react'
+import React,{useState,useRef, useEffect} from 'react'
 import blank from './../assets/blank.png'
 import { useNavigate } from 'react-router-dom'
+import { getProfileApi } from '../api/users';
 
 
 const Profile = () => {
@@ -8,6 +9,20 @@ const Profile = () => {
     const [copySuccess, setCopySuccess] = useState('');
     const [isEmpty , setIsEmpty] = useState(true);
     const [image, setImage] = useState(null);
+    const [profile ,setProfile] = useState({
+      email:"",
+
+name:"",
+
+userID:"",
+
+profilePicture:null,
+
+bio : "",
+birthday:"",
+
+    })
+    const [loading,setLoading] = useState(true);
     const fileInputRef = useRef(null); // Reference to the hidden input
 
     const handleImageChange = (e) => {
@@ -43,9 +58,45 @@ const Profile = () => {
       fileInputRef.current.click();
     };
 
+    useEffect(()=>{
+
+    async function  Fetch(){
+
+      try{
+        const response = await getProfileApi()
+
+     
+        if(response.status == 200){
+  
+         
+          setProfile(response.data.profile);
+          setLoading(false)
+        }
+      }
+
+      catch(error){
+console.log(error)
+      }
+     
+
+    }
+
+    Fetch()
+
+    },[])
+
+    const date = new Date(profile.birthday);
+    const formattedDate = date.toLocaleDateString('en-GB', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    });
+
   return (
+
     <>
-    <div className='relative md:px-16 h-full '>
+
+    {loading?loading: <div className='relative md:px-16 h-full '>
     <input 
      ref={fileInputRef} 
         className='hidden'
@@ -60,11 +111,11 @@ const Profile = () => {
    
 <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M13 5H9.32843C8.79799 5 8.28929 5.21071 7.91421 5.58579L7.08579 6.41421C6.71071 6.78929 6.20201 7 5.67157 7H4C2.89543 7 2 7.89543 2 9L2 19C2 20.1046 2.89543 21 4 21H18C19.1046 21 20 20.1046 20 19V12M17 5H23M20 8V2M11 18C13.2091 18 15 16.2091 15 14C15 11.7909 13.2091 10 11 10C8.79086 10 7 11.7909 7 14C7 16.2091 8.79086 18 11 18Z" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
 </button>
-        <img style={{width:"150px",height:"150px"}} className={`object-cover mx-auto ${isEmpty?"":"rounded-full"}`} src={blank} alt='userProfile'/>
+        <img style={{width:"150px",height:"150px"}} className={`object-cover mx-auto ${isEmpty?"":"rounded-full"}`} src={profile.profilePicture? profile.profilePicture : blank} alt='userProfile'/>
     </section>
 
 <section className='text-center my-2 '>
-    <p className='text-lg font-bold'>Sophia</p>
+    <p className='text-lg font-bold'>{profile.name}</p>
     <span>Online</span>
 </section>
 
@@ -73,14 +124,14 @@ const Profile = () => {
 
         <span className='text-gray-500'>Email</span>
 
-        <span className='float-right'>example@gmail.com</span>
+        <span className='float-right'>{profile.email}</span>
         </div>
 
         <div className='max-w-md mx-auto py-3'>
 
         <span className='text-gray-500'>userID</span>
 
-        <span className='float-right'>#sophia</span>
+        <span className='float-right'>{profile.userID?profile.userID:"Enter Your ID"}</span>
         </div>
 
 
@@ -88,7 +139,7 @@ const Profile = () => {
 
 <span className='text-gray-500'>Bio</span>
 
-<span className='float-right'>Add your bio</span>
+<span className='float-right'>{profile.bio?profile.bio:"Add Your Bio"}</span>
 </div>
 
 
@@ -96,7 +147,7 @@ const Profile = () => {
 
 <span className='text-gray-500'>Date of Birth</span>
 
-<span className='float-right'>Apr 28 , 2001</span>
+<span className='float-right'>{profile.birthday?formattedDate:"Pick Your Birth Date"}</span>
 </div>
    
 </section>
@@ -127,7 +178,8 @@ const Profile = () => {
 
 </section>
 
-    </div>
+    </div> }
+   
     {copySuccess &&
       <div className="toaster show" id="toaster">
       <span>{copySuccess}</span>
