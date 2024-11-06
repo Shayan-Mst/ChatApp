@@ -52,7 +52,7 @@ export const checkProfileApi = () => {
 
     let url = `${SERVER_URL}/api/profile/check?`
     url += params.toString()
-    console.log(url)
+   
     return axios.get(url,{headers:{Authorization:`Bearer ${authorizationToken}`}});
 
 } 

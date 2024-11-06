@@ -70,6 +70,9 @@ birthday:"",
   
          
           setProfile(response.data.profile);
+          if(response.data.profile.profilePicture){
+            setIsEmpty(false)
+          }
           setLoading(false)
         }
       }

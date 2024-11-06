@@ -26,6 +26,7 @@ try{
     localStorage.setItem('email',user.email)
     setCurrentUser(user.email)
 
+
     checkingProfile()
   
   }
@@ -50,9 +51,8 @@ const checkingProfile =  async() => {
   
   try{
 
-    console.log('what??')
     const response = await checkProfileApi()
-    console.log(response)
+    
     if(response.status == 200){
       navigate('/home')
     }
