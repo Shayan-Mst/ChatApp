@@ -143,7 +143,7 @@ app.post('/login', async (req, res) => {
 chatCollection = db.collection('messages');
 
 io.on('connection', (socket) => {
-  console.log('A user connected:', socket.id);
+  console.log('A user connected');
 
   // Load previous messages between two users
   socket.on('load_messages', async ({ sender, receiver }) => {
@@ -166,7 +166,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('disconnect', () => {
-    console.log('A user disconnected:', socket.id);
+    console.log('A user disconnected');
   });
 });
 
@@ -206,7 +206,7 @@ app.get('/chat-list/:email', async (req, res) => {
   }
 });
 
-app.get('/api/profile/check',verifyToken, async (req, res) => {
+app.get('/api/profile/check', async (req, res) => {
   const  email = req.query.email;
   const profile = await Profile.findOne({ email });
 
