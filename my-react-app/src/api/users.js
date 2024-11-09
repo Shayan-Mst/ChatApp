@@ -76,3 +76,11 @@ export const updatePictureApi = (profilePicture) => {
 
 
 
+export const updateProfileApi = (profile) => {
+
+    const url = `${SERVER_URL}/api/profile/edit/${email}`;
+    
+    return axios.put(url,profile,{headers:{Authorization:`Bearer ${authorizationToken}`}});
+
+} 
+

@@ -28,7 +28,7 @@ birthday:"",
  
     const copyToClipboard = async () => {
       try {
-        const profileLink = 'https://example.com/profile/sophi'; // Replace with dynamic profile URL
+        const profileLink = 'http://localhost:5173/setting/profile'; // Replace with dynamic profile URL
         await navigator.clipboard.writeText(profileLink);
         setCopySuccess('Profile link copied!'); // Show success message
         setTimeout(()=>{setCopySuccess('');},1000)
@@ -103,7 +103,7 @@ console.log(error)
         setImage(pic)
         setIsEmpty(false)
       }
-    };
+    }
 
     const changePicture = async(e) => {
 
