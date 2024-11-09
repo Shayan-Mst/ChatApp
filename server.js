@@ -258,6 +258,7 @@ app.post('/api/profile/complete',verifyToken,upload.single('profilePicture'), as
   res.status(200).json({ message: 'Profile updated successfully' });
 });
 
+
 // Route to get profile data
 app.get('/api/profile', verifyToken, async (req, res) => {
   try {
@@ -274,6 +275,40 @@ app.get('/api/profile', verifyToken, async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 });
+
+//update profile picture
+
+app.put('/api/profile/picture',verifyToken,upload.single('profilePicture'),async (req,res) => {
+
+  const {profilePicture} = req.body
+  try{
+
+    
+    const user = await User.findById(req.userId) // Exclude password for security
+
+    const profileUpdate = await Profile.findOne({email : user.email})
+
+  
+      // Update the profilePicture field
+      profileUpdate.profilePicture = profilePicture; // Assuming req.file.path is where the new image path is stored
+    
+      // Save the updated document
+      await profileUpdate.save();
+    
+      res.status(200).json({ message: 'Profile picture updated successfully', user: profileUpdate });
+    
+    if(!profileUpdate) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    
+    
+  }
+  catch(error){
+    res.status(500).json({ error : "error accured" });
+  }
+
+})
 
 // Start the server
 const PORT = process.env.PORT || 3000;
