@@ -295,7 +295,7 @@ app.put('/api/profile/picture',verifyToken,upload.single('profilePicture'),async
       // Save the updated document
       await profileUpdate.save();
     
-      res.status(200).json({ message: 'Profile picture updated successfully', user: profileUpdate });
+      res.status(200).json({ message: 'Profile picture updated successfully'});
     
     if(!profileUpdate) {
       return res.status(404).json({ error: 'User not found' });
