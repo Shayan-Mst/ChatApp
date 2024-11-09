@@ -310,6 +310,36 @@ app.put('/api/profile/picture',verifyToken,upload.single('profilePicture'),async
 
 })
 
+
+// PUT route for updating profile
+app.put('/api/profile/edit/:email',verifyToken, async (req, res) => {
+  const { email } = req.params; // Finding user by email
+  const { name, bio, birthday,userID } = req.body;
+
+  try {
+      const profile = await Profile.findOne({ email });
+
+      if (!profile ) {
+          return res.status(404).json({ message: 'User not found' });
+      }
+
+      // Update profile information
+      profile.name = name || profile.name;
+      profile.bio = bio || profile.bio;
+      profile.birthday = birthday || profile.birthday;
+      profile.userID = userID || profile.userID
+
+      // Save the updated user profile
+      await profile.save();
+
+      res.status(200).json({ message: 'Profile updated successfully', profile });
+  } catch (error) {
+      console.error('Error updating profile:', error);
+      res.status(500).json({ message: 'Error updating profile' });
+  }
+});
+
+
 // Start the server
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
