@@ -128,7 +128,7 @@ app.post('/login', async (req, res) => {
    
       // Generate token
       const token = jwt.sign({ id: user._id, email: user.email },process.env.JWT_SECRET, {
-          expiresIn: '2h', // Token expiration time
+          expiresIn: '4h', // Token expiration time
       });
 
       // Return the token
@@ -270,6 +270,22 @@ app.get('/api/profile', verifyToken, async (req, res) => {
     const profile = await Profile.findOne({email : user.email}).select('-_id -__v')
 
     res.status(200).json({ profile : profile });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+app.get('/api/profile/picture', verifyToken, async (req, res) => {
+  try {
+    const user = await User.findById(req.userId).select('-password') // Exclude password for security
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const profile = await Profile.findOne({email : user.email}).select('-_id -__v')
+
+    res.status(200).json({ profilePicture : profile.profilePicture });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server error' });
