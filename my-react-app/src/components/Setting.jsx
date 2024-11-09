@@ -1,25 +1,45 @@
-import React, { useContext } from 'react'
-import chris from './../assets/chris.jpg'
+import React, { useContext, useEffect,useState } from 'react'
+import blank from './../assets/blank.png'
 import { useNavigate,Link } from 'react-router-dom'
 import Cookies from 'js-cookie'
 import Sidebar from './accessiblity/Sidebar'
 import { ChatContext } from '../context'
+import { pictureApi } from '../api/users'
 
 const Setting = () => {
 
     const navigate = useNavigate()
     const {setSidebar} = useContext(ChatContext)
 
+    const [picture,setPicture] = useState(null);
   
-  
-  
-
     function logout(){
 
         Cookies.remove('token')
         navigate('/sign')
 
     }
+
+    useEffect(()=>{
+
+      const fetch = async() => {
+
+        try{
+
+          const response = await pictureApi()
+          if(response.status==200){
+            setPicture(response.data.profilePicture)
+          }
+        }
+        catch(error){
+
+        }
+      }
+      
+      fetch()
+
+    },[])
+
   return (
     <>
     <Sidebar/>
@@ -60,7 +80,7 @@ const Setting = () => {
       {/* Left section: Profile image */}
       <div className="flex items-center">
         <img
-          src={chris} // Replace with actual profile image URL
+          src={picture} // Replace with actual profile image URL
           alt="Profile"
           className="w-12 h-12 rounded-full object-cover"
         />

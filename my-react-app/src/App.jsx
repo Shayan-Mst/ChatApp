@@ -13,6 +13,7 @@ import Setting from './components/Setting'
 import UserProfile from './components/UserProfile'
 import MakeProfile from './components/MakeProfile'
 import EditProfile from './components/EditProfile'
+import ContactUs from './components/ContactUs'
 
 function App() {
 
@@ -38,6 +39,8 @@ function App() {
  
   <Route path='/setting' element={<Setting/>}/>
   <Route path='/setting/profile' element={<Profile/>}/>
+
+  <Route path='/contact-us' element={<ContactUs/>}/>
 
 </Routes>
 

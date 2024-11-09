@@ -74,6 +74,13 @@ export const updatePictureApi = (profilePicture) => {
 
 } 
 
+export const pictureApi = () => {
+
+    const url = `${SERVER_URL}/api/profile/picture`;
+   
+    return axios.get(url,{headers:{Authorization:`Bearer ${authorizationToken}`}});
+
+} 
 
 
 export const updateProfileApi = (profile) => {
