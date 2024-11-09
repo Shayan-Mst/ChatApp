@@ -64,3 +64,15 @@ export const getProfileApi = () => {
 
 } 
 
+export const updatePictureApi = (profilePicture) => {
+
+    const url = `${SERVER_URL}/api/profile/picture`;
+    const formData = new FormData();
+
+    formData.append('profilePicture',profilePicture); // Append the image file
+    return axios.put(url,formData,{headers:{Authorization:`Bearer ${authorizationToken}`}});
+
+} 
+
+
+
