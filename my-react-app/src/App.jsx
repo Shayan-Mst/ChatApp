@@ -14,6 +14,8 @@ import UserProfile from './components/UserProfile'
 import MakeProfile from './components/MakeProfile'
 import EditProfile from './components/EditProfile'
 import ContactUs from './components/ContactUs'
+import HelpSupport from './components/HelpSupport'
+import PrivacyPolicy from './components/PrivacyPolicy'
 
 function App() {
 
@@ -41,6 +43,8 @@ function App() {
   <Route path='/setting/profile' element={<Profile/>}/>
 
   <Route path='/contact-us' element={<ContactUs/>}/>
+  <Route path = "/setting/help&support" element = {<HelpSupport/>}/>
+  <Route path = "/setting/privacy" element = {<PrivacyPolicy/>}/>
 
 </Routes>
 
