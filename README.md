@@ -1,3 +1,5 @@
+![image](https://github.com/user-attachments/assets/56a925eb-2afb-45a8-98e1-565dc2c01a1c)
+
 # 🗨️ ChatApp
 
 A real-time chat application built with **React + Vite** on the frontend, **Node.js + Express** on the backend, and **MongoDB** for data storage. The app features real-time messaging, user authentication, and a smooth, modern UI.
@@ -34,7 +36,8 @@ This project aims to demonstrate the use of:
 - Vite (for frontend build)  
 - Node.js  
 - Express  
-- Socket.IO (for real-time messaging)  
+- Socket.IO (for real-time messaging)
+- nodemail (For authenticating email , sending code to your email for register purposes)
 - MongoDB  
 - JWT (for user authentication)  
 - Tailwind CSS (for styling)  
