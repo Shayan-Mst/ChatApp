@@ -1,6 +1,3 @@
-# ChatApp
-Chatty, a chat application with both front , back and DB
-
 # 🗨️ ChatApp
 
 A real-time chat application built with **React + Vite** on the frontend, **Node.js + Express** on the backend, and **MongoDB** for data storage. The app features real-time messaging, user authentication, and a smooth, modern UI.
@@ -51,16 +48,21 @@ This project aims to demonstrate the use of:
 
 ```bash
 git clone https://github.com/Shayan-Mst/ChatApp.git
-cd ChatApp
-2. Install dependencies
-Backend (Node.js + Express)
 
-cd server
+-Backend (Node.js + Express)
+-Install dependencies
+cd ChatApp
+cd Back
+cd chatApp
 npm install
 
-Frontend (React + Vite)
 
-cd ../client
+Frontend (React + Vite)
+-Install dependencies
+cd ChatApp
+cd Front
+cd ChatApp
+cd my-react-app
 npm install
 
 3. Environment Setup
@@ -76,48 +78,36 @@ Backend (Node.js + Express)
 
 Start the backend server:
 
-cd server
-npm run dev
+cd ChatApp
+cd Back
+cd chatApp
+node server.js
 
-    The backend runs on: http://localhost:5000
 
 Frontend (React + Vite)
 
 Start the frontend development server:
 
-cd ../client
+cd ChatApp
+cd Front
+cd ChatApp
+cd my-react-app
 npm run dev
 
-    The frontend runs on: http://localhost:5173
+  
 
 Make sure to configure the API proxy in vite.config.ts to forward frontend API requests to the backend:
 
 server: {
   proxy: {
-    '/api': 'http://localhost:5000',
+    '/api': 'http://localhost:YOUR_PORT',
   },
 },
 
 🧪 LocalStorage Notes
 
-    User authentication tokens and chat data are stored in the browser's localStorage.
+    User authentication tokens  are stored in the browser's localStorage.
 
     You can click on "Logout" to clear the user token.
 
-🚀 Deployment
-1. Frontend Deployment
 
-To build the frontend for production:
-
-cd client
-npm run build
-
-You can deploy the built assets to platforms like Netlify, Vercel, or GitHub Pages.
-2. Backend Deployment
-
-To start the backend server in production:
-
-cd server
-npm start
-
-You can deploy the backend to platforms like Heroku,Render, or VPS
